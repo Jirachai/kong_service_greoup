@@ -1,0 +1,2 @@
+svc_finance	route_rest_payment_2c2p	 	http://thd-liberty.th.msig.com:10002/rest/payment/2c2p
+		route_rest_payment_quickpay     http://thd-liberty.th.msig.com:10002/rest/payment/quickpay

@@ -1,0 +1,20 @@
+MSIG svc internal
+
+35
+svc_msprinting_masterPrintFactory_service	route_msprinting_service	 	http://thd-mservicept0.th.msig.com:10106/msprinting/service/
+						route_masterPrintFactory_service	 	http://thd-mservicept0.th.msig.com:10106/masterPrintFactory/service
+
+34
+svc_MSIG_Genlink_Report_WS_IAppweb	route_MSIG_GenlinkWS_jaxrs_AccountRS	 	http://thd-was.th.msig.com/MSIG_GenlinkWS/jaxrs/AccountRS
+					
+Finance
+
+General Object
+
+Policy
+
+Sales
+
+Service
+
+eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJAand0MjAyMVRva2VuIiwic3ViIjoiMTIzNDU2Nzg5MCIsIm5hbWUiOiJKb2huIERvZSIsImFkbWluIjp0cnVlLCJpYXQiOjE1MTYyMzkwMjJ9.yB_47UYU9QRT88_Cl6JfFN9Ci4qMtzTqPkh17Ih3XGEcxjHpLcHaQjPq3wGKXo2hXfAspV1x47R7TqZbli3CYw
