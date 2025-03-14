@@ -3,7 +3,7 @@
 # Set your Kong Admin API URL
 KONG_ADMIN_URL="http://localhost:8001"
 
-# List of upstreams
+# Define the upstream list properly
 UPSTREAMS=(
     "thd-liberty.th.msig.com:10001"
     "thd-liberty.th.msig.com:10002"
