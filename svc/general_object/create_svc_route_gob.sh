@@ -2,8 +2,8 @@
 
 # Set your Kong Admin API URL and authentication token
 KONG_ADMIN="http://127.0.0.1:8001"
-#KONG_ADMIN_TOKEN="<your-token>"
-#WORK_SPACE="default"
+KONG_ADMIN_TOKEN="<your-token>"
+WORK_SPACE="default"
 
 # Service details
 SERVICE_NAME="svc_general_object"
@@ -12,7 +12,8 @@ SERVICE_TAGS='["uat", "general_object"]'
 
 # Create the service
 echo "Creating service: $SERVICE_NAME..."
-curl -s -X POST "$KONG_ADMIN/services" \
+curl -s -X POST "$KONG_ADMIN/$WORK_SPACE/services" \
+     -H "Kong-Admin-Token: $KONG_ADMIN_TOKEN" \	
      -H "Content-Type: application/json" \
      -d '{
            "name": "'"$SERVICE_NAME"'",
@@ -24,10 +25,10 @@ curl -s -X POST "$KONG_ADMIN/services" \
 create_route() {
   ROUTE_NAME=$1
   ROUTE_PATH=$2
-  ROUTE_TAGS='["uat", "finance"]'
+  ROUTE_TAGS='["uat", "general_group"]'
 
   echo "Creating route: $ROUTE_NAME with path $ROUTE_PATH..."
-  curl -s -X POST "$KONG_ADMIN/routes" \
+  curl -s -X POST "$KONG_ADMIN/$WORK_SPACE/routes" \
        -H "Content-Type: application/json" \
        -d '{
              "name": "'"$ROUTE_NAME"'",
