@@ -62,16 +62,24 @@ UPSTREAMS=(
 for entry in "${UPSTREAMS[@]}"; do
     NAME=$(echo "$entry" | awk '{print $1}')
     TARGET=$(echo "$entry" | awk '{print $2}')
+    HOST=$(echo $TARGET | cut -d ':' -f 1)
+    PORT=$(echo $TARGET | cut -d ':' -f 2)
+    if ! [[ "$PORT" =~ ^[0-9]+$ ]]
+    then
+        PORT=80
+    fi
 
     echo "Creating upstream: $NAME"
-    curl -s -X POST "$KONG_ADMIN_URL/upstreams" \
+    curl -s -X POST "$KONG_ADMIN_URL/$WORKSPACE/upstreams/$NAME" \
         -H "Content-Type: application/json" \
-        -d "{\"name\": \"$NAME\"}"
+        -d "{\"name\": \"$NAME\",
+             \"tags\": [\"host=$HOST\",\"port=$PORT\"]
+            }"
 
-    echo "Adding target $TARGET to upstream: $NAME"
-    curl -s -X POST "$KONG_ADMIN_URL/upstreams/$NAME/targets" \
-        -H "Content-Type: application/json" \
-        -d "{\"target\": \"$TARGET\"}"
+#    echo "Adding target $TARGET to upstream: $NAME"
+#    curl -s -X POST "$KONG_ADMIN_URL/upstreams/$NAME/targets" \
+#        -H "Content-Type: application/json" \
+#        -d "{\"target\": \"$TARGET\"}"
 
 done
 

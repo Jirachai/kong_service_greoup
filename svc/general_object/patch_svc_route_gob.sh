@@ -28,9 +28,8 @@ create_route() {
   ROUTE_TAGS='["uat", "general_group"]'
 
   echo "Creating route: $ROUTE_NAME with path $ROUTE_PATH..."
-  curl -s -X POST "$KONG_ADMIN/$WORKSPACE/routes" \
+  curl -s -X PATCH "$KONG_ADMIN/routes/$ROUTE_NAME" \
        -H "Content-Type: application/json" \
-       -H "Kong-Admin-Token: $KONG_ADMIN_TOKEN" \	
        -d '{
              "name": "'"$ROUTE_NAME"'",
              "paths": ["'"$ROUTE_PATH"'"],
