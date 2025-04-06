@@ -1,0 +1,31 @@
+services:
+  - name: my-service
+    url: http://default-upstream  # This is a placeholder, will be overridden
+
+routes:
+  - name: route-v1
+    service: my-service
+    paths:
+      - /api/v1/
+    strip_path: true
+
+  - name: route-v2
+    service: my-service
+    paths:
+      - /api/v2/
+    strip_path: true
+
+plugins:
+  - name: serverless-functions
+    service: my-service
+    config:
+      access: |
+        local path = kong.request.get_path()
+        if path:find("/api/v1/") then
+            kong.service.set_upstream("upstream-v1")  -- Must be a Kong upstream
+        elseif path:find("/api/v2/") then
+            kong.service.set_upstream("upstream-v2")  -- Must be a Kong upstream
+        else
+            kong.service.set_upstream("default-upstream")
+        end
+
