@@ -1,0 +1,48 @@
+local kong = kong
+local path = kong.request.get_path()
+
+local upstreams = {
+    ["/rest/convertPdf"] = "thd-liberty.th.msig.com_10001",
+    ["/rest/reductPdf"] = "thd-liberty.th.msig.com_10001",
+    ["/rest/RunningGenerator"] = "thd-liberty.th.msig.com_10004",
+    ["/rest/EmailService/emailService"] = "thd-liberty.th.msig.com_10011",
+    ["/rest/PMIService"] = "thd-liberty.th.msig.com_10014",
+    ["/rest/TaxReg"] = "thd-liberty.th.msig.com_10019",
+    ["/rest/BizSmart"] = "thd-liberty.th.msig.com_10034",
+    ["/rest/otpservice"] = "thd-liberty.th.msig.com_10084",
+    ["/rest/ThaiVietjetService"] = "thd-liberty.th.msig.com_10097",
+    ["/rest/ssquare"] = "thd-liberty.th.msig.com_10100",
+    ["/rest/sign"] = "thd-liberty.th.msig.com_10107",
+    ["/api/pv/"] = "thd-liberty.th.msig.com_10110",
+    ["/api"] = "thd-liberty.th.msig.com_11889",
+    ["/clientchecking"] = "thd-liberty.th.msig.com_12867",
+    ["/rest/AgentService"] = "thd-mservicept0_10101",
+    ["/rest/buckets"] = "thd-mservicept0.th.msig.com_10100",
+    ["/msautoprinting/service/"] = "thd-mservicept0.th.msig.com_10116",
+    ["/MSIG_PortalWS/jaxrs/AttachDoc"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Bringup"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/CaseMgmt"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/ClientDoc"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/CodeDesc"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/DocControl"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Mail"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Noti"] = "thd-portal.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Policy"] = "thd-portal.th.msig.com_10039",
+    ["/printingQueue/api/printing/"] = "thd-printft-pt.th.msig.com_10117",
+    ["/MSIG_GenlinkWS/jaxrs/AccountRS"] = "thd-was.th.msig.com",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkRS"] = "thd-was.th.msig.com",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkTARS"] = "thd-was.th.msig.com",
+    ["/MSIG_IAppWeb"] = "thd-was.th.msig.com",
+    ["/MSIG_ReportWS/jaxrs/PdfReport"] = "thd-was.th.msig.com"
+}
+
+
+for route_path, upstream in pairs(upstreams) do
+    if path:find(route_path, 1, true) then
+        kong.service.set_upstream(upstream)
+        return
+    end
+end
+
+
+--kong.response.exit(404, { message = "No route found for this path" })

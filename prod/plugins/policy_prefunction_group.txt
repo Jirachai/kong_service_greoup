@@ -1,0 +1,28 @@
+local kong = kong
+local path = kong.request.get_path()
+
+local upstreams = {
+    ["/rest/convertPdf"] = "thd-liberty.th.msig.com_10001",
+    ["/rest/payment/genaral"] = "thd-liberty.th.msig.com_10002",
+    ["/rest/PMIService"] = "thd-liberty.th.msig.com_10014",
+    ["/rest/mailing"] = "thd-liberty.th.msig.com_10017",
+    ["/rest/ntl"] = "thd-liberty.th.msig.com_10088",
+    ["/rest/homecare"] = "thd-liberty.th.msig.com_10093",
+    ["/api"] = "thd-liberty.th.msig.com_11889",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkRS"] = "thd-was.th.msig.com",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkTARS"] = "thd-was.th.msig.com",
+    ["/MSIG_IAppWeb"] = "thd-was.th.msig.com",
+    ["/msprinting/service/"] = "thd-mservicept0.th.msig.com_10106",
+    ["/masterPrintFactory/service"] = "thd-mservicept0.th.msig.com_10106"
+}
+
+
+for route_path, upstream in pairs(upstreams) do
+    if path:find(route_path, 1, true) then
+        kong.service.set_upstream(upstream)
+        return
+    end
+end
+
+
+--kong.response.exit(404, { message = "No route found for this path" })
