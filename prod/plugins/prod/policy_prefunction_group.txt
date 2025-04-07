@@ -1,0 +1,40 @@
+local kong = kong
+local path = kong.request.get_path()
+
+local upstreams = {
+    ["/rest/convertPdf"] = "th-ngenlink1.th.msig.com_10001",
+    ["/rest/payment/genaral"] = "th-ngenlink1.th.msig.com_10002",
+    ["/rest/PMIService"] = "th-ngenlink1.th.msig.com_10014",
+    ["/rest/mailing"] = "th-microservice.th.msig.com_10017",
+    ["/rest/ntl"] = "th-msbatch.th.msig.com_10088",
+    ["/rest/homecare"] = "th-microservice.th.msig.com_10093",
+    ["/api"] = "th-microservice.th.msig.com_11889",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkRS"] = "th-was.th.msig.com_80",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkTARS"] = "th-was.th.msig.com_80",
+    ["/MSIG_IAppWeb"] = "th-was.th.msig.com_80",
+    ["/msprinting/service/"] = "th-mservicept00.th.msig.com_10106",
+    ["/masterPrintFactory/service"] = "th-mservicept00.th.msig.com_10106",
+    ["/api/request/"] = "th-msbatch.th.msig.com_25998",
+    ["/api/"] = "th-msbatch.th.msig.com_25998",
+    ["/renew/person/accident/"] = "th-ngenlink1.th.msig.com_25054",
+    ["/renew/motor/"] = "th-ngenlink1.th.msig.com_25054",
+    ["/person/accident/"] = "th-ngenlink1.th.msig.com_25062",
+    ["/motor/"] = "th-ngenlink1.th.msig.com_25062",
+    ["/home/"] = "th-ngenlink1.th.msig.com_25058",
+    ["/travel/request/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/travel/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/inbound/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/motor/issue"] = "th-ngenlink1.th.msig.com_25052",
+    ["/MSIG_ACWS/rest/auth/"] = "th-jboss.th.msig.com_80"
+}
+
+
+for route_path, upstream in pairs(upstreams) do
+    if path:find(route_path, 1, true) then
+        kong.service.set_upstream(upstream)
+        return
+    end
+end
+
+
+--kong.response.exit(404, { message = "No route found for this path" })

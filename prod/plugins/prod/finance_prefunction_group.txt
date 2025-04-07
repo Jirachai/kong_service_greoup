@@ -1,0 +1,23 @@
+local kong = kong
+local path = kong.request.get_path()
+
+local upstreams = {
+    ["/rest/payment/2c2p"] = "th-ngenlink1.th.msig.com_10002",
+    ["/rest/payment/quickpay"] = "th-ngenlink1.th.msig.com_10002",
+    ["/bailbond/"] = "th-ngenlink1.th.msig.com_25066",
+    ["/account/payment/"] = "th-ngenlink1.th.msig.com_25063",
+    ["/account/"] = "th-ngenlink1.th.msig.com_25063",
+    ["/rest/"] = "th-ngenlink1.th.msig.com_25062"
+}
+
+
+
+for route_path, upstream in pairs(upstreams) do
+    if path:find(route_path, 1, true) then
+        kong.service.set_upstream(upstream)
+        return
+    end
+end
+
+
+--kong.response.exit(404, { message = "No route found for this path" })

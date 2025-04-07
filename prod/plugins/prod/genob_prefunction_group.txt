@@ -1,0 +1,66 @@
+local kong = kong
+local path = kong.request.get_path()
+
+local upstreams = {
+    ["/rest/registerEMail"] = "th-ngenlink1.th.msig.com_10008",
+    ["/rest/PrintingService"] = "thd-liberty.th.msig.com_10018",
+    ["/rest/otpservice"] = "th-microservice.th.msig.com_10084",
+    ["/api/repair/"] = "th-microservice.th.msig.com_10108",
+    ["/api/report/"] = "th-microservice.th.msig.com_10108",
+    ["/rest/logcenter"] = "th-mservicept00.th.msig.com_10096",
+    ["/rest/logsms"] = "th-mservicept00.th.msig.com_10096",
+    ["/msautoprinting/service/"] = "th-mservicept00.th.msig.com_10116",
+    ["/MSIG_PortalWS/jaxrs/AttachDoc"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Bringup"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/CaseMgmt"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/ClientDoc"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Mail"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Noti"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/Policy"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_PortalWS/jaxrs/SMS"] = "th-wps.th.msig.com_10039",
+    ["/MSIG_GenlinkWS/jaxrs/AccountRS"] = "th-was.th.msig.com_80",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkRS"] = "th-was.th.msig.com_80",
+    ["/MSIG_GenlinkWS/jaxrs/GenlinkTARS"] = "th-was.th.msig.com_80",
+    ["/MSIG_ReportWS/jaxrs/PdfReport"] = "th-was.th.msig.com_80",
+    ["/api/"] = "th-msbatch.th.msig.com_25998",
+    ["/renew/"] = "th-ngenlink1.th.msig.com_25054",
+    ["/bailbond/"] = "th-ngenlink1.th.msig.com_25066",
+    ["/account/"] = "th-ngenlink1.th.msig.com_25063",
+    ["/rest/printing/copyPolicy/"] = "th-ngenlink1.th.msig.com_25062",
+    ["/rest/"] = "th-ngenlink1.th.msig.com_25062",
+    ["/motor/"] = "th-ngenlink1.th.msig.com_25062",
+    ["/rest/manualvideo/"] = "th-ngenlink1.th.msig.com_25061",
+    ["/agent/master/"] = "th-ngenlink1.th.msig.com_25060",
+    ["/agent/mail/"] = "th-ngenlink1.th.msig.com_25060",
+    ["/agent/cmi/"] = "th-ngenlink1.th.msig.com_25060",
+    ["/agent/"] = "th-ngenlink1.th.msig.com_25060",
+    ["/onlineCode/"] = "th-ngenlink1.th.msig.com_25059",
+    ["/master/"] = "th-ngenlink1.th.msig.com_25059",
+    ["/landingPage/"] = "th-ngenlink1.th.msig.com_25059",
+    ["/home/"] = "th-ngenlink1.th.msig.com_25058",
+    ["/attachment/"] = "th-ngenlink1.th.msig.com_25057",
+    ["/travel/oversea/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/travel/domestic/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/travel/agreement/oversea/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/travel/agreement/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/travel/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/inbound/"] = "th-ngenlink1.th.msig.com_25056",
+    ["/seasonal/"] = "th-ngenlink1.th.msig.com_25053",
+    ["/request/cmi/"] = "th-ngenlink1.th.msig.com_25052",
+    ["/request/"] = "th-ngenlink1.th.msig.com_25052",
+    ["/loan/"] = "th-ngenlink1.th.msig.com_25000",
+    ["/MSIG_ACWS/rest/datatable/"] = "th-jboss.th.msig.com_80",
+    ["/MSIG_ACWS/rest/auth/"] = "th-jboss.th.msig.com_80"
+
+}
+
+
+for route_path, upstream in pairs(upstreams) do
+    if path:find(route_path, 1, true) then
+        kong.service.set_upstream(upstream)
+        return
+    end
+end
+
+
+--kong.response.exit(404, { message = "No route found for this path" })
